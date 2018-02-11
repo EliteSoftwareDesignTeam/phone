@@ -1,4 +1,4 @@
-package containers;
+package com.teamness.smane.containers;
 
 /**
  * Represents data obtained from GPS, about the position and heading of the device, as well as

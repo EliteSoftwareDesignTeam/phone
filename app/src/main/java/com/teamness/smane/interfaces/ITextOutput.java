@@ -1,4 +1,4 @@
-package interfaces;
+package com.teamness.smane.interfaces;
 
 /**
  * Represents a way of conveying any text message to the user, e.g. voice or screen text

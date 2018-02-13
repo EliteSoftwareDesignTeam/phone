@@ -1,6 +1,6 @@
-package interfaces;
+package com.teamness.smane.interfaces;
 
-import containers.LocationData;
+import com.teamness.smane.containers.LocationData;
 
 /**
  * Provides a location of the device.

@@ -1,4 +1,4 @@
-package interfaces;
+package com.teamness.smane.interfaces;
 
 /**
  * Represents a way of communicating a direction to the user, e.g. vibrations, screen text or voice.

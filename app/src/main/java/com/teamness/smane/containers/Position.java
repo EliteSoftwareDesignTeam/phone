@@ -1,4 +1,4 @@
-package containers;
+package com.teamness.smane.containers;
 
 /**
  * Created by MXB551 on 03/02/2018.

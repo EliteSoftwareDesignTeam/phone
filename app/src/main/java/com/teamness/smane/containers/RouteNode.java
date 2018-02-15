@@ -7,7 +7,14 @@ package com.teamness.smane.containers;
 public class RouteNode {
 
     public String instruction;
-    public double angleChange; //In radians, standard notation (positive is left, negative is right)
+    /**
+     * The change in angle the user should be facing, after crossing this node.
+     * In radians, standard notation (positive is left, negative is right).
+     * For example, if the node is an intersection and we need to turn left, the value would be PI/2
+     * <p>
+     * For the very first node, assume the user is facing exactly north
+     */
+    public double angleChange;
     public double distanceFromPrevious; //In meters
 
     public Position location;

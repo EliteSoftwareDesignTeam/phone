@@ -13,9 +13,9 @@ public class Route {
     public Position end;
     public double distance; //Total distance, in meters
 
-    public Route(List<RouteNode> nodes, Position start) {
+    public Route(List<RouteNode> nodes) {
         this.nodes = nodes;
-        this.start = start;
+        this.start = nodes.get(0).location;
         this.end = nodes.get(nodes.size() - 1).location;
         double totalDistance = 0;
         for (RouteNode node : nodes) {

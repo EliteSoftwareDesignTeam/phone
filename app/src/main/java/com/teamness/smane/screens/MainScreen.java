@@ -30,7 +30,8 @@ public class MainScreen extends AppCompatActivity implements TextToSpeech.OnInit
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, voice.MY_DATA_CHECK_CODE);
 
-        output = new ButtonDirectionController(voice); //TODO provide bluetooth thingy
+        //output = new ButtonDirectionController(voice); //TODO provide bluetooth thingy
+        output = new ButtonDirectionController(null);
 
         //Toast.makeText(getApplicationContext(), "That was left, i hope.",
         //Toast.LENGTH_SHORT).show();
@@ -96,7 +97,7 @@ public class MainScreen extends AppCompatActivity implements TextToSpeech.OnInit
 
 
         Thread controllerThread = new Thread(output);
-        controllerThread.start(); //TODO re-enable when ready
+        //controllerThread.start(); //TODO re-enable when ready
     }
 
     /**

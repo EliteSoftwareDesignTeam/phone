@@ -13,8 +13,11 @@ public class VoiceTTS implements IDirectionOutput{
     public TextToSpeech myTTS;
     public int MY_DATA_CHECK_CODE = 0;
 
-    private String LEFT = "LEFT";
-    private String RIGHT = "RIGHT";
+    private String LEFT = "Turn left";
+    private String RIGHT = "Turn right";
+    private String FORWARD = "Keep going forward";
+
+    public VoiceTTS(){}
 
     public void speakWords(String speech) {
         //myTTS.speak(speech, TextToSpeech.QUEUE_FLUSH, null);
@@ -23,10 +26,12 @@ public class VoiceTTS implements IDirectionOutput{
     }
 
     @Override
-    public void giveDirection(double direction, double strength) {
-        if(direction < 0)
-            myTTS.speak(LEFT, TextToSpeech.QUEUE_ADD, null);
-        else
+    public void giveDirection(double angle, double strength) {
+        if(angle == 0)
+            myTTS.speak(FORWARD, TextToSpeech.QUEUE_ADD, null);
+        else if(angle < 0)
             myTTS.speak(RIGHT, TextToSpeech.QUEUE_ADD, null);
+        else
+            myTTS.speak(LEFT, TextToSpeech.QUEUE_ADD, null);
     }
 }

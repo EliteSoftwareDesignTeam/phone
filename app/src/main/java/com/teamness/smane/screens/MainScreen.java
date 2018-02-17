@@ -30,7 +30,7 @@ public class MainScreen extends AppCompatActivity implements TextToSpeech.OnInit
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, voice.MY_DATA_CHECK_CODE);
 
-        output = new ButtonDirectionController(null); //TODO provide bluetooth thingy
+        output = new ButtonDirectionController(voice); //TODO provide bluetooth thingy
 
         //Toast.makeText(getApplicationContext(), "That was left, i hope.",
         //Toast.LENGTH_SHORT).show();
@@ -73,7 +73,7 @@ public class MainScreen extends AppCompatActivity implements TextToSpeech.OnInit
                     output.setRightPressed(true);
                     Toast.makeText(getApplicationContext(), "Right down!",
                             Toast.LENGTH_SHORT).show();
-                    voice.speakWords("Right");
+                    //voice.speakWords("Right");
                 }
                 if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     output.setRightPressed(false);
@@ -85,9 +85,18 @@ public class MainScreen extends AppCompatActivity implements TextToSpeech.OnInit
             }
         });
 
+        Button screenChanger = (Button) findViewById(R.id.screenSwitch1);
+        screenChanger.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), Prototype2.class);
+                startActivityForResult(myIntent, 0);
+            }
+
+        });
+
 
         Thread controllerThread = new Thread(output);
-        //controllerThread.start(); //TODO re-enable when ready
+        controllerThread.start(); //TODO re-enable when ready
     }
 
     /**

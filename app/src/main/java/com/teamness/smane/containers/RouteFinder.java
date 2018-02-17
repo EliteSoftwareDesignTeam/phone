@@ -64,6 +64,7 @@ public class RouteFinder {
                     endLocation.setLatitude(step.endLocation.lat);
                     endLocation.setLongitude(step.endLocation.lng);
 
+                    //TODO: get proper instructions for route node
                     nodes.add(new RouteNode(step.htmlInstructions, startLocation.bearingTo(endLocation),step.distance.inMeters, startLocation));
                 }
             }

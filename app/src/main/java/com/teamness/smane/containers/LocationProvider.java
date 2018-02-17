@@ -52,7 +52,7 @@ public class LocationProvider extends Activity implements ILocationProvider {
     private void checkPermission(){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             System.out.println("Need permissions");
-            // TODO: Consider calling
+            // TODO: Manage case where permissions not given
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,

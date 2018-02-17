@@ -1,5 +1,7 @@
 package com.teamness.smane.containers;
 
+import android.location.Location;
+
 /**
  * Represents a single significant point in a route, i.e. a point when direction is delivered to the user
  */
@@ -17,9 +19,9 @@ public class RouteNode {
     public double angleChange;
     public double distanceFromPrevious; //In meters
 
-    public Position location;
+    public Location location;
 
-    public RouteNode(String instruction, double angleChange, double distanceFromPrevious, Position location) {
+    public RouteNode(String instruction, double angleChange, double distanceFromPrevious, Location location) {
         this.instruction = instruction;
         this.angleChange = angleChange;
         this.distanceFromPrevious = distanceFromPrevious;

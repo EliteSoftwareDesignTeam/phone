@@ -1,8 +1,8 @@
 package com.teamness.smane.controller;
 
 
-import com.teamness.smane.containers.LocationData;
-import com.teamness.smane.containers.Position;
+import android.location.Location;
+
 import com.teamness.smane.containers.Route;
 import com.teamness.smane.containers.RouteNode;
 import com.teamness.smane.interfaces.IDirectionOutput;
@@ -22,7 +22,7 @@ public class Controller implements Runnable {
     private Route route;
 
     private boolean active = false;
-    private Position location;
+    private Location location;
     private double confidence; //TODO Take confidence into account, deal with unreliable GPS
     private int step;
 
@@ -53,10 +53,9 @@ public class Controller implements Runnable {
         route = directions;
         step = 0;
 
-        //Get current location data
-        LocationData locationData = gps.getLocation();
-        location = locationData.getPosition();
-        double heading = locationData.heading;
+        //Get current location date
+        location = gps.getLocation();
+        double heading = location.getBearing(); //TODO check if this is the correct function
 
         //Update the heading on first node given user's current orientation
         route.nodes.get(0).angleChange = normaliseAngle(route.nodes.get(0).angleChange - heading);
@@ -85,7 +84,7 @@ public class Controller implements Runnable {
      */
     public void resumeGuiding() {
         active = true;
-        location = gps.getLocation().getPosition();
+        location = gps.getLocation();
         guidingThread = new Thread(this);
         (guidingThread).start();
     }
@@ -143,7 +142,7 @@ public class Controller implements Runnable {
             while (step < route.nodes.size()) {
                 Thread.sleep(100);
                 //Update location
-                location = gps.getLocation().getPosition();
+                location = gps.getLocation();
                 //Check for triggering directions
                 if (location.distanceTo(nextNode().location) < TRIGGER_DISTANCE) {
                     triggerNextNode();

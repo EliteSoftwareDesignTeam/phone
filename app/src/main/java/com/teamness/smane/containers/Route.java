@@ -1,5 +1,7 @@
 package com.teamness.smane.containers;
 
+import android.location.Location;
+
 import java.util.List;
 
 /**
@@ -9,8 +11,8 @@ import java.util.List;
 public class Route {
 
     public List<RouteNode> nodes;
-    public Position start;
-    public Position end;
+    public Location start;
+    public Location end;
     public double distance; //Total distance, in meters
 
     public Route(List<RouteNode> nodes) {

@@ -113,7 +113,7 @@ public class Controller implements Runnable {
         RouteNode current = nextNode();
         step++;
         say(current.instruction);
-        giveDirection(-2 * current.angleChange / Math.PI, 1);
+        giveDirection(Math.toDegrees(current.angleChange), 1);
     }
 
     /**
@@ -171,8 +171,8 @@ public class Controller implements Runnable {
      * Rounds a number to a specified amount of digits after the dot
      *
      * @param number Number to round
-     * @param digits How many digits after the dot should be kept. Negative numbers will round even
-     *               more, e.g. round(1234,-1) = 1230
+     * @param digits How many digits after the dot should be kept. Negative arguments mean
+     *               rounding even more, e.g. round(1234,-1) = 1230
      */
     private double round(double number, int digits) {
         return Math.round(number * Math.pow(10, digits)) / Math.pow(0.1, digits);

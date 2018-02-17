@@ -1,5 +1,6 @@
 package com.teamness.smane.containers;
 
+import android.content.Context;
 import android.speech.tts.TextToSpeech;
 
 import com.teamness.smane.interfaces.IDirectionOutput;
@@ -11,13 +12,14 @@ import com.teamness.smane.interfaces.IDirectionOutput;
 public class VoiceTTS implements IDirectionOutput{
 
     public TextToSpeech myTTS;
-    public int MY_DATA_CHECK_CODE = 0;
 
     private String LEFT = "Turn left";
     private String RIGHT = "Turn right";
     private String FORWARD = "Keep going forward";
 
-    public VoiceTTS(){}
+    public VoiceTTS(Context context, TextToSpeech.OnInitListener listener){
+        this.myTTS = new TextToSpeech(context, listener);
+    }
 
     public void speakWords(String speech) {
         //myTTS.speak(speech, TextToSpeech.QUEUE_FLUSH, null);

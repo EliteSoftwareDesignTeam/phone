@@ -18,7 +18,9 @@ import java.util.Locale;
 public class MainScreen extends AppCompatActivity implements TextToSpeech.OnInitListener {
 
     private ButtonDirectionController output;
-    private VoiceTTS voice = new VoiceTTS();
+    private VoiceTTS voice;
+    private int MY_DATA_CHECK_CODE = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +30,7 @@ public class MainScreen extends AppCompatActivity implements TextToSpeech.OnInit
         // check for TTS data
         Intent checkTTSIntent = new Intent();
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-        startActivityForResult(checkTTSIntent, voice.MY_DATA_CHECK_CODE);
+        startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
 
         output = new ButtonDirectionController(null); //TODO provide bluetooth thingy
 
@@ -108,9 +110,10 @@ public class MainScreen extends AppCompatActivity implements TextToSpeech.OnInit
      * Act on result of TTS data check
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == voice.MY_DATA_CHECK_CODE) {
+        if (requestCode == MY_DATA_CHECK_CODE) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-                voice.myTTS = new TextToSpeech(this, this);
+                voice = new VoiceTTS(this, this);
+                //voice.myTTS = new TextToSpeech(this, this);
             }
             else {
                 Intent installTTSIntent = new Intent();

@@ -28,16 +28,14 @@ public class Bluetooth extends Handleable<byte[], Event> {
     private BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
     private Thread workerThread;
 
-    public boolean connect(String deviceName) throws IOException {
+    public void connect(String deviceName) throws IOException {
         if(adapter.isEnabled()) {
-            Optional<BluetoothDevice> deviceOpt = adapter.getBondedDevices().stream().filter(d -> d.getName().equals(deviceName)).findFirst();
-            if(deviceOpt.isPresent()) {
-                device = deviceOpt.get();
+            for(BluetoothDevice d : adapter.getBondedDevices()) if(d.getName().equals(deviceName)) {
+                device = d;
                 socket = device.createRfcommSocketToServiceRecord(UUID);
-                return true;
+                break;
             }
         }
-        return false;
     }
 
     public void send(byte[] bytes) throws IOException {

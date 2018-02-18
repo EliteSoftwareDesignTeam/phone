@@ -4,17 +4,21 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 
+import com.teamness.smane.Converter;
+import com.teamness.smane.Handleable;
+import com.teamness.smane.Handler;
+import com.teamness.smane.Serialisation;
+import com.teamness.smane.event.Event;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Consumer;
 
 /**
  * Created by samtebbs on 04/02/2018.
  */
 
-public class Bluetooth {
+public class Bluetooth extends Handleable<byte[], Event> {
 
     public static final String UUID_STRING = "94f39d29-7d6d-437d-973b-fba39e49d4ee";
     public static final java.util.UUID UUID = java.util.UUID.fromString(UUID_STRING);
@@ -23,7 +27,6 @@ public class Bluetooth {
     private BluetoothDevice device;
     private BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
     private Thread workerThread;
-    private List<Consumer<byte[]>> handlers = new ArrayList<>();
 
     public boolean connect(String deviceName) throws IOException {
         if(adapter.isEnabled()) {
@@ -47,7 +50,7 @@ public class Bluetooth {
             public void run() {
                 while(!workerThread.isInterrupted()) {
                     try {
-                        if(stream.available() > 0) onData(stream.read());
+                        if(stream.available() > 0) handle(stream.read());
                     } catch (IOException e) {
                         //e.printStackTrace();
                     }
@@ -57,16 +60,17 @@ public class Bluetooth {
         workerThread.start();
     }
 
+    public void addHandler(Handler<Event> handler) {
+        addHandler(new Converter<byte[], Event>() {
+            @Override
+            public Event convert(byte[] bytes) {
+                return null;
+            }
+        }, handler);
+    }
+
     public void start() throws IOException {
         start(new DefaultBluetoothStream(socket));
-    }
-
-    private void onData(final byte[] bytes) {
-        handlers.forEach(h -> h.accept(bytes));
-    }
-
-    public void addHandler(Consumer<byte[]> handler) {
-        handlers.add(handler);
     }
 
 }

@@ -2,13 +2,16 @@ package com.teamness.smane.containers;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.teamness.smane.interfaces.ILocationProvider;
 
@@ -16,17 +19,23 @@ import com.teamness.smane.interfaces.ILocationProvider;
  * Created by aidan on 17/02/18.
  */
 
-public class LocationProvider extends Activity implements ILocationProvider {
+public class LocationProvider implements ILocationProvider {
     private FusedLocationProviderClient mFusedLocationClient;
+    private Context context;
 
-    public LocationProvider(FusedLocationProviderClient mFusedLocationClient) {
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+    public LocationProvider(FusedLocationProviderClient mFusedLocationClient, Context context) {
+        this.mFusedLocationClient = mFusedLocationClient;
+        this.context = context;
     }
 
     public Location getLocation() {
         checkPermission();
 
         Task<Location> t = mFusedLocationClient.getLastLocation();
+
+        while(!t.isComplete()){
+            //do nothing
+        }
 
         return t.getResult();
     }
@@ -50,7 +59,7 @@ public class LocationProvider extends Activity implements ILocationProvider {
     }
 
     private void checkPermission(){
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             System.out.println("Need permissions");
             // TODO: Manage case where permissions not given
             //    ActivityCompat#requestPermissions

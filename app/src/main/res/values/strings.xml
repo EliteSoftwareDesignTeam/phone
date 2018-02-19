@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Smane</string>
     <string name="title_activity_map_screen">Map</string>
+    <string name="title_activity_prototype2">Prototype2</string>
 </resources>

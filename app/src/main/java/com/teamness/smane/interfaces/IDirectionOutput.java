@@ -9,10 +9,12 @@ public interface IDirectionOutput {
 
     /**
      * Gives directions to the user. Might only use the first parameter.
-     * @param direction Which direction to direct the user to. -1 for left, 1 for right. Values in-between suggest a milder turn (e.g. 0.3 would mean to turn slightly to the right)
+     * @param angle Which direction to direct the user to. Expressed in degrees in standard notation,
+     *              i.e. positive numbers being left and negative being right. E.g. 90 means to
+     *              turn right by 90 degrees, 260 (or -100) to turn 100 degrees left
      * @param strength Strength of the signal. Might be higher for obstacles than regular directions. Likely not all outputs will use this.
      */
-    public void giveDirection(double direction, double strength);
+    public void giveDirection(double angle, double strength);
 
 
 }

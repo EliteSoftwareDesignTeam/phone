@@ -37,7 +37,11 @@
 
         <activity
             android:name=".screens.MapScreen"
-            android:label="@string/title_activity_map_screen"></activity>
+            android:label="@string/title_activity_map_screen" />
+        <activity
+            android:name=".screens.Prototype2"
+            android:label="@string/title_activity_prototype2"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

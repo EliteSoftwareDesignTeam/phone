@@ -10,6 +10,7 @@ import com.teamness.smane.Handler;
 import com.teamness.smane.event.Event;
 
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Created by samtebbs on 04/02/2018.
@@ -24,20 +25,24 @@ public class Bluetooth extends Handleable<byte[], Event> {
     private BluetoothDevice device;
     private BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
     private Thread workerThread;
+    private OutputStream os;
 
     public boolean connect(String deviceName) throws IOException {
         if(adapter.isEnabled()) {
             for(BluetoothDevice d : adapter.getBondedDevices()) if(d.getName().equals(deviceName)) {
                 device = d;
                 socket = device.createRfcommSocketToServiceRecord(UUID);
+                if(socket.isConnected()) {
+                    os = socket.getOutputStream();
                     return true;
+                }
             }
         }
         return false;
     }
 
     public void send(byte[] bytes) throws IOException {
-        socket.getOutputStream().write(bytes);
+        os.write(bytes);
     }
 
     public void start(final BluetoothStream stream) {

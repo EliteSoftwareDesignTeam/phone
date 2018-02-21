@@ -7,12 +7,9 @@ import android.bluetooth.BluetoothSocket;
 import com.teamness.smane.Converter;
 import com.teamness.smane.Handleable;
 import com.teamness.smane.Handler;
-import com.teamness.smane.Serialisation;
 import com.teamness.smane.event.Event;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by samtebbs on 04/02/2018.
@@ -28,14 +25,15 @@ public class Bluetooth extends Handleable<byte[], Event> {
     private BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
     private Thread workerThread;
 
-    public void connect(String deviceName) throws IOException {
+    public boolean connect(String deviceName) throws IOException {
         if(adapter.isEnabled()) {
             for(BluetoothDevice d : adapter.getBondedDevices()) if(d.getName().equals(deviceName)) {
                 device = d;
                 socket = device.createRfcommSocketToServiceRecord(UUID);
-                break;
+                    return true;
             }
         }
+        return false;
     }
 
     public void send(byte[] bytes) throws IOException {

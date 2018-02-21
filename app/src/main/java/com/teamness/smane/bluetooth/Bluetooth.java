@@ -26,6 +26,12 @@ public class Bluetooth extends Handleable<byte[], String> {
     private BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
     private Thread workerThread;
     private OutputStream os;
+    private final Converter<byte[], String> defaultConverter = new Converter<byte[], String>() {
+        @Override
+        public String convert(byte[] t) {
+            return new String(t);
+        }
+    };
 
     public boolean connect(String deviceName) throws IOException {
         if(adapter.isEnabled()) {
@@ -46,13 +52,17 @@ public class Bluetooth extends Handleable<byte[], String> {
         os.write(bytes);
     }
 
+    public void addHandler(Handler<String> handler) {
+        super.addHandler(defaultConverter, handler);
+    }
+
     public void start(final BluetoothStream stream) {
         workerThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while(!workerThread.isInterrupted()) {
+                while (!workerThread.isInterrupted()) {
                     try {
-                        if(stream.available() > 0) handle(stream.read());
+                        if (stream.available() > 0) handle(stream.read());
                     } catch (IOException e) {
                         //e.printStackTrace();
                     }
@@ -60,15 +70,6 @@ public class Bluetooth extends Handleable<byte[], String> {
             }
         });
         workerThread.start();
-    }
-
-    public void addHandler(Handler<Event> handler) {
-        addHandler(new Converter<byte[], Event>() {
-            @Override
-            public Event convert(byte[] bytes) {
-                return null;
-            }
-        }, handler);
     }
 
     public void start() throws IOException {

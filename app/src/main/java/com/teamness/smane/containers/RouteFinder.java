@@ -78,16 +78,14 @@ public class RouteFinder {
     }
 
     private List<RouteNode> processStep(DirectionsStep previousStep, DirectionsStep currentStep, DirectionsStep nextStep) {
-
         List<RouteNode> nodes = new ArrayList<>();
-        String instructions = currentStep.htmlInstructions;
 
         Location previous;
         Location current;
         Location next;
 
+        String instructions = currentStep.htmlInstructions;
         double previousBearing = 0;
-        double nextBearing = 0;
         double bearingChange = 0;
         double previousDistance = 0;
 
@@ -105,17 +103,16 @@ public class RouteFinder {
             } else {
                 next = newLocation(polylines.get(i + 1));
 
-                nextBearing = current.bearingTo(next);
-
                 if (i == 0 && previousStep != null) {
                     previous = newLocation(previousStep.endLocation);
-                    previousBearing = previous.bearingTo(current);
+                    previousBearing = toRadianBearing(previous.bearingTo(current));
                     previousDistance = previous.distanceTo(previous);
                 } else {
                     instructions = "Turn: " + bearingChange;
                 }
             }
 
+            double nextBearing = toRadianBearing(current.bearingTo(next));
             bearingChange = getBearingChange(previousBearing, nextBearing);
 
             nodes.add(new RouteNode(instructions, bearingChange, previousDistance, current));
@@ -145,25 +142,12 @@ public class RouteFinder {
     }
 
     private double getBearingChange(double previous, double next) {
-        //TODO finish bearing change thing
-        double change = 0;
-        if (previous < 0 && next < 0) {
-            if (next < previous) {
-                change = next + previous;
-            } else {
-                change = next + Math.abs(previous);
-            }
-        } else if (previous < 0) {
-            change = next + Math.abs(previous);
-        } else if (next < 0) {
-            if (Math.abs(next) < previous) {
+        double change = next - previous;
 
-            } else {
-
-            }
-            change = next - previous;
-        } else {
-            change = next - previous;
+        if(change > Math.PI){
+            change -= 2* Math.PI;
+        }else if (change <= - Math.PI){
+            change += 2*Math.PI;
         }
 
         return change;

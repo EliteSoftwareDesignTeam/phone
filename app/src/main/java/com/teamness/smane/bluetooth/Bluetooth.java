@@ -32,6 +32,7 @@ public class Bluetooth extends Handleable<byte[], Event> {
             for(BluetoothDevice d : adapter.getBondedDevices()) if(d.getName().equals(deviceName)) {
                 device = d;
                 socket = device.createRfcommSocketToServiceRecord(UUID);
+                socket.connect();
                 if(socket.isConnected()) {
                     os = socket.getOutputStream();
                     return true;

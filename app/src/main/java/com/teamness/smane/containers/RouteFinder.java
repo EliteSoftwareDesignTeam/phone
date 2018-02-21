@@ -10,7 +10,6 @@ import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
-import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.TravelMode;
 
@@ -57,13 +56,23 @@ public class RouteFinder {
         for (DirectionsRoute route : directionsRoutes) {
             for (DirectionsLeg leg : route.legs) {
                 for (int x = 0; x < leg.steps.length; x++) {
-                    DirectionsStep step = leg.steps[x];
+                    DirectionsStep previousStep = null;
+                    DirectionsStep currentStep = leg.steps[x];
+                    DirectionsStep nextStep = null;
 
-                    //TODO make this section
+                    if (x < leg.steps.length - 1) {
+                        nextStep = leg.steps[x + 1];
+                    }
 
+                    if (x > 0) {
+                        previousStep = leg.steps[x - 1];
+                    }
+
+                    nodes.addAll(processStep(previousStep, currentStep, nextStep));
                 }
             }
         }
+
         Route route = new Route(nodes);
         return route;
     }
@@ -73,52 +82,42 @@ public class RouteFinder {
         List<RouteNode> nodes = new ArrayList<>();
         String instructions = currentStep.htmlInstructions;
 
-        Location current = newLocation(currentStep.startLocation);
-        Location next = new Location("");
+        Location previous;
+        Location current;
+        Location next;
 
         double previousBearing = 0;
         double nextBearing = 0;
-        double distance = 0;
-        boolean hasNext = false;
-
-        if (nextStep != null) {
-            hasNext = true;
-            next = newLocation(nextStep.startLocation);
-
-            nextBearing = current.bearingTo(next);
-        }
-
-        if (previousStep != null) {
-            Location previous = newLocation(previousStep.endLocation);
-            previousBearing = previous.bearingTo(current);
-            distance = previous.distanceTo(current);
-        }
-
-        double bearingChange = getBearingChange(previousBearing, nextBearing);
-
-        nodes.add(new RouteNode(instructions, bearingChange, distance, current));
-
-        double previousDistance = current.distanceTo(next);
-        previousBearing = nextBearing;
+        double bearingChange = 0;
+        double previousDistance = 0;
 
         List<LatLng> polylines = currentStep.polyline.decodePath();
         for (int i = 0; i < polylines.size(); i++) {
             current = newLocation(polylines.get(i));
 
             if (i + 1 == polylines.size()) {
-                if(hasNext) {
+                if (nextStep != null) {
                     next = newLocation(nextStep.startLocation);
-                }else{
-                    //TODO deal with final step
+                } else {
+                    //there is no next, just use current instead
+                    next = current;
                 }
             } else {
                 next = newLocation(polylines.get(i + 1));
+
+                nextBearing = current.bearingTo(next);
+
+                if (i == 0 && previousStep != null) {
+                    previous = newLocation(previousStep.endLocation);
+                    previousBearing = previous.bearingTo(current);
+                    previousDistance = previous.distanceTo(previous);
+                } else {
+                    instructions = "Turn: " + bearingChange;
+                }
             }
 
-            nextBearing = current.bearingTo(next);
             bearingChange = getBearingChange(previousBearing, nextBearing);
 
-            instructions = "Turn: " + bearingChange;
             nodes.add(new RouteNode(instructions, bearingChange, previousDistance, current));
 
             previousDistance = current.distanceTo(next);

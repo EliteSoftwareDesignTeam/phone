@@ -16,7 +16,7 @@ import java.io.OutputStream;
  * Created by samtebbs on 04/02/2018.
  */
 
-public class Bluetooth extends Handleable<byte[], Event> {
+public class Bluetooth extends Handleable<byte[], String> {
 
     public static final String UUID_STRING = "94f39d29-7d6d-437d-973b-fba39e49d4ee";
     public static final java.util.UUID UUID = java.util.UUID.fromString(UUID_STRING);

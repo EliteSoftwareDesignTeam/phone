@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+import com.teamness.smane.containers.TextInterpreter;
 import com.teamness.smane.R;
 
 import java.util.List;
@@ -29,8 +30,6 @@ public class Prototype2 extends AppCompatActivity {
         theButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 displaySpeechRecognizer();
-                //TODO do things here
-
             }
 
         });
@@ -40,13 +39,13 @@ public class Prototype2 extends AppCompatActivity {
      *  Call this method to start voice recognition
      */
     private void displaySpeechRecognizer() {
-        System.out.println("starting");
+        //System.out.println("starting");
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         // Start the activity, the intent will be populated with the speech text
         startActivityForResult(intent, SPEECH_REQUEST_CODE);
-        System.out.println("started");
+        //System.out.println("started");
 
     }
 
@@ -56,19 +55,21 @@ public class Prototype2 extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
-        System.out.println("got result");
+        System.out.println("SR: "+"got result");
 
         if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
             List<String> results = data.getStringArrayListExtra(
                     RecognizerIntent.EXTRA_RESULTS);
-            String spokenText = results.get(0);
-            // spokenText is the result
-            // Do something with spokenText
+
+            TextInterpreter TI=new TextInterpreter();
+
+
             for(int i=0;i<results.size();i++)
             {
-                System.out.println(results.get(i));
+                System.out.println("SR: "+results.get(i));
             }
-            //System.out.println(results.toArray());
+
+            TI.Interpret(results);
 
         }
         super.onActivityResult(requestCode, resultCode, data);

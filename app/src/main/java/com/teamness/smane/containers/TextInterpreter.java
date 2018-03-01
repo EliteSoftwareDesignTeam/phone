@@ -25,6 +25,7 @@ public class TextInterpreter {
         GOcommands.add("how do I get (to )?");
         GOcommands.add("guide me (to )?");
         GOcommands.add("go to ");
+        GOcommands.add("give me directions to ");
 
         STOPcommands=new ArrayList<>();
         STOPcommands.add("stop");
@@ -39,7 +40,8 @@ public class TextInterpreter {
      * @param texts A list of String that represent the spoken sentence
      * @return The command sting associated
      */
-    public String Interpret(List<String> texts){
+    public Command Interpret(List<String> texts){
+        Command command=new Command(CommandType.NOT_IMPLEMENTED,"");
         boolean matched=false;
         //Take each result obtained from speech rec, the most likely first
         for(String text:texts){
@@ -53,6 +55,7 @@ public class TextInterpreter {
                     System.out.println("TI: " + "GO command:");
                     String dest = m.replaceFirst("");
                     System.out.println("TI: " + dest);
+                    command.reInit(CommandType.DIRECTIONS,dest);
                     matched = true;
                     break;
                 }
@@ -65,6 +68,7 @@ public class TextInterpreter {
                     System.out.println("TI: " + "SAVE command:");
                     String dest = m.replaceFirst("");
                     System.out.println("TI: " + dest);
+                    command.reInit(CommandType.SAVE_LOCATION,dest);
                     matched = true;
                     break;
                 }
@@ -75,15 +79,14 @@ public class TextInterpreter {
                 Matcher m = pattern.matcher(text);
                 if (m.find()) {
                     System.out.println("TI: " + "STOP command");
+                    command.reInit(CommandType.CANCEL_DIRECTIONS,"");
                     matched = true;
                     break;
                 }
             }
             if(matched)break;
         }
-
-
-        return "";
+        return command;
     }
 
 

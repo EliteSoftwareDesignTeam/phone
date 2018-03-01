@@ -13,4 +13,9 @@ public class Command {
         this.type = type;
         this.content = content;
     }
+
+    public void reInit(CommandType type, String content) {
+        this.type = type;
+        this.content = content;
+    }
 }

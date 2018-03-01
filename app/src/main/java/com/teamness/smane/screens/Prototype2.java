@@ -103,7 +103,9 @@ public class Prototype2 extends AppCompatActivity {
             switch (command.type){
                 case DIRECTIONS:
                     Location currentLoc = lp.getLocation();
-                    Route route = rf.getRouteLatLng(currentLoc.getLatitude(), currentLoc.getLongitude(), 52.450817, -1.930534);
+                    //Route route = rf.getRouteLatLng(currentLoc.getLatitude(), currentLoc.getLongitude(), 52.450817, -1.930534);
+                    System.out.println("Checking directions to "+command.content);
+                    Route route = rf.getRoute(currentLoc.getLatitude(), currentLoc.getLongitude(), command.content);
                     controller.startGuiding(route);
                     System.out.println(controller.printRoute());
                     break;

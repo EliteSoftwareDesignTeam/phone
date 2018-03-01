@@ -1,16 +1,24 @@
 package com.teamness.smane.screens;
 
+import android.Manifest;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
-import com.teamness.smane.containers.Command;
-import com.teamness.smane.containers.TextInterpreter;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.teamness.smane.R;
+import com.teamness.smane.containers.Command;
+import com.teamness.smane.containers.LocationProvider;
+import com.teamness.smane.containers.Route;
+import com.teamness.smane.containers.RouteFinder;
+import com.teamness.smane.containers.TextInterpreter;
 import com.teamness.smane.controller.Controller;
 import com.teamness.smane.interfaces.IDirectionOutput;
 import com.teamness.smane.interfaces.ITextOutput;
@@ -23,6 +31,9 @@ public class Prototype2 extends AppCompatActivity {
 
     private static final int SPEECH_REQUEST_CODE = 0;
     private Controller controller;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private LocationProvider lp;
+    private RouteFinder rf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +42,19 @@ public class Prototype2 extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Setup location stuff
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        ActivityCompat.requestPermissions(this, new String [] {Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        lp = new LocationProvider(mFusedLocationClient, this);
+        rf = new RouteFinder();
+
 
         List<IDirectionOutput> directionOutputs = new LinkedList<>();
         directionOutputs.add(new CommandOutput());
         List<ITextOutput> textOutputs = new LinkedList<>();
         textOutputs.add(new CommandOutput());
 
-        //controller = new Controller(directionOutputs,textOutputs,)
+        controller = new Controller(directionOutputs,textOutputs,lp);
 
         Button theButton = (Button) findViewById(R.id.thingDoer);
         theButton.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +101,11 @@ public class Prototype2 extends AppCompatActivity {
 
             Command command = TI.Interpret(results);
             switch (command.type){
-                case DIRECTIONS: //GIVE DIRECTIONS
+                case DIRECTIONS:
+                    Location currentLoc = lp.getLocation();
+                    Route route = rf.getRouteLatLng(currentLoc.getLatitude(), currentLoc.getLongitude(), 52.450817, -1.930534);
+                    controller.startGuiding(route);
+                    System.out.println(controller.printRoute());
                     break;
                 default:
                     System.err.println("Unimplemented command type "+command.type);

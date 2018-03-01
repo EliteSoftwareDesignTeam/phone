@@ -10,6 +10,8 @@ public class TextInterpreter {
     private ArrayList<String> GOcommands;
     private ArrayList<String> STOPcommands;
     private ArrayList<String> SAVEcommands;
+    private ArrayList<String> REPEATcommands;
+
 
     public TextInterpreter(){
         init();
@@ -33,6 +35,10 @@ public class TextInterpreter {
 
         SAVEcommands=new ArrayList<>();
         SAVEcommands.add("(save|send|record|memorize|remember) this (location|place|destination) as ");
+
+        REPEATcommands=new ArrayList<>();
+        REPEATcommands.add("(repeat|what)");
+
     }
 
     /**
@@ -80,6 +86,17 @@ public class TextInterpreter {
                 if (m.find()) {
                     System.out.println("TI: " + "STOP command");
                     command.reInit(CommandType.CANCEL_DIRECTIONS,"");
+                    matched = true;
+                    break;
+                }
+            }
+            if(matched)break;
+            for(String regex : REPEATcommands) {
+                Pattern pattern = Pattern.compile(regex);
+                Matcher m = pattern.matcher(text);
+                if (m.find()) {
+                    System.out.println("TI: " + "REPEAT command:");
+                    command.reInit(CommandType.REPEAT,"");
                     matched = true;
                     break;
                 }

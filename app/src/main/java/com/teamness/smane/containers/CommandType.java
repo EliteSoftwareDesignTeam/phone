@@ -6,6 +6,6 @@ package com.teamness.smane.containers;
 
 public enum CommandType {
 
-    DIRECTIONS, SAVE_LOCATION, CANCEL_DIRECTIONS, NOT_IMPLEMENTED;
+    DIRECTIONS, SAVE_LOCATION, CANCEL_DIRECTIONS, NOT_IMPLEMENTED, REPEAT;
 
 }

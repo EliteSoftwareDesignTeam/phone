@@ -97,6 +97,15 @@ public class Controller implements Runnable {
         triggerNextNode();
     }
 
+    public String printRoute(){
+        StringBuilder res = new StringBuilder();
+        for (RouteNode node : route.nodes) {
+            res.append(node.location.getLatitude()).append(", ").append(node.location.getLongitude())
+                    .append(" - ").append(node.instruction).append("\n");
+        }
+        return res.toString();
+    }
+
     /**
      * @return The node the user is currently heading towards
      */

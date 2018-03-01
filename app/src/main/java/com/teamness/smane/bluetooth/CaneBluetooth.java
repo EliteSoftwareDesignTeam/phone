@@ -17,7 +17,7 @@ public class CaneBluetooth {
     static final String PI_NAME = "£$£$£$£$Smanepiness";
     private static Bluetooth bt;
 
-    public static boolean init() throws IOException {
+    public boolean init() throws IOException {
         bt = new Bluetooth();
         if(bt.connect(PI_NAME)) {
             bt.start();
@@ -36,7 +36,7 @@ public class CaneBluetooth {
         return false;
     }
 
-    private static void onBtEvent(Event e) {
+    public void onBtEvent(Event e) {
         try {
             bt.send(Serialisation.fromObject(e).getBytes());
         } catch (IOException e1) {

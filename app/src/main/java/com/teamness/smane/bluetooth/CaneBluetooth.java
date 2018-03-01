@@ -21,7 +21,11 @@ public class CaneBluetooth {
         bt = new Bluetooth();
         if(bt.connect(PI_NAME)) {
             bt.start();
-            CaneEvents.BT.onAny(EventChannel.EventPriority.HIGH, "onBtEvent", null);
+            try {
+                CaneEvents.BT.onAny(EventChannel.EventPriority.HIGH, "onBtEvent", this);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
             bt.addHandler(new Handler<String>() {
                 @Override
                 public void handle(String s) {

@@ -50,6 +50,7 @@ public class Bluetooth extends Handleable<byte[], String> {
 
     public void send(byte[] bytes) throws IOException {
         os.write(bytes);
+        os.flush();
     }
 
     public void addHandler(Handler<String> handler) {

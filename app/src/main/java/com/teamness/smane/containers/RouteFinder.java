@@ -32,20 +32,29 @@ public class RouteFinder {
         System.out.println("key setup complete");
     }
 
-    public Route getRouteName(String origin, String destination) {
+    public Route getRoute(double originLat, double originLong, String destination){
         DirectionsApiRequest apiRequest = DirectionsApi.newRequest(context);
-        apiRequest.origin(origin);
+        apiRequest.origin(new com.google.maps.model.LatLng(originLat, originLong));
         apiRequest.destination(destination);
-        apiRequest.mode(TravelMode.WALKING); //set travelling mode
+        apiRequest.mode(TravelMode.WALKING);
 
         return toRoute(getRoute(apiRequest));
     }
 
-    public Route getRouteLatLng(double originLat, double originLong, double destLat, double destLong) {
+    public Route getRoute(String origin, String destination) {
+        DirectionsApiRequest apiRequest = DirectionsApi.newRequest(context);
+        apiRequest.origin(origin);
+        apiRequest.destination(destination);
+        apiRequest.mode(TravelMode.WALKING);
+
+        return toRoute(getRoute(apiRequest));
+    }
+
+    public Route getRoute(double originLat, double originLong, double destLat, double destLong) {
         DirectionsApiRequest apiRequest = DirectionsApi.newRequest(context);
         apiRequest.origin(new com.google.maps.model.LatLng(originLat, originLong));
         apiRequest.destination(new com.google.maps.model.LatLng(destLat, destLong));
-        apiRequest.mode(TravelMode.WALKING); //set travelling mode
+        apiRequest.mode(TravelMode.WALKING);
 
         return toRoute(getRoute(apiRequest));
     }

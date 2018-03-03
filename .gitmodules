@@ -1,0 +1,3 @@
+[submodule "app/src/shared"]
+	path = app/src/shared
+	url = http://github.com/EliteSoftwareDesignTeam/shared

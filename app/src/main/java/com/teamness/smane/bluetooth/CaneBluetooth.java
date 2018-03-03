@@ -26,12 +26,12 @@ public class CaneBluetooth {
             Serialisation.base64Provider = new Base64Provider() {
                 @Override
                 public byte[] decode(String base64Str) {
-                    return Base64.decode(base64Str, Base64.DEFAULT);
+                    return Base64.decode(base64Str, Base64.NO_WRAP);
                 }
 
                 @Override
                 public String encode(byte[] bytes) {
-                    return Base64.encodeToString(bytes, Base64.DEFAULT);
+                    return Base64.encodeToString(bytes, Base64.NO_WRAP);
                 }
             };
             bt.start();

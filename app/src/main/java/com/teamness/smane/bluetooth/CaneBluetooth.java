@@ -1,5 +1,8 @@
 package com.teamness.smane.bluetooth;
 
+import android.util.Base64;
+
+import com.teamness.smane.Base64Provider;
 import com.teamness.smane.Handler;
 import com.teamness.smane.Serialisation;
 import com.teamness.smane.event.CaneEvents;
@@ -20,17 +23,24 @@ public class CaneBluetooth {
     public boolean init() throws IOException {
         bt = new Bluetooth();
         if(bt.connect(PI_NAME)) {
+            Serialisation.base64Provider = new Base64Provider() {
+                @Override
+                public byte[] decode(String base64Str) {
+                    return Base64.decode(base64Str, Base64.DEFAULT);
+                }
+
+                @Override
+                public String encode(byte[] bytes) {
+                    return Base64.encodeToString(bytes, Base64.DEFAULT);
+                }
+            };
             bt.start();
-            try {
-                CaneEvents.BT.onAny(EventChannel.EventPriority.HIGH, "onBtEvent", this);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
+            CaneEvents.BT_OUT.onAny(EventChannel.EventPriority.HIGH, "onBtEvent", this);
             bt.addHandler(new Handler<String>() {
                 @Override
                 public void handle(String s) {
                     try {
-                        CaneEvents.BT.trigger((Event) Serialisation.toObject(s));
+                        CaneEvents.BT_IN.trigger((Event) Serialisation.toObject(s));
                     } catch (IOException | ClassNotFoundException e) {
                         e.printStackTrace();
                     }

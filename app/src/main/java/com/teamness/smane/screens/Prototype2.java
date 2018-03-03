@@ -58,6 +58,7 @@ public class Prototype2 extends AppCompatActivity {
 
         controller = new Controller(directionOutputs,textOutputs,lp);
 
+        //Handle main button
         Button theButton = (Button) findViewById(R.id.thingDoer);
         theButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -65,6 +66,17 @@ public class Prototype2 extends AppCompatActivity {
             }
 
         });
+
+        //Handle next step button
+        Button nextButton = (Button) findViewById(R.id.nextStep);
+        nextButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                controller.triggerNextNode();
+            }
+        });
+
     }
 
     /**

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.teamness.smane.R;
 import com.teamness.smane.containers.VoiceTTS;
+import com.teamness.smane.interfaces.IDirectionOutput;
 import com.teamness.smane.prototype.ButtonDirectionController;
 
 import java.util.Locale;
@@ -86,7 +87,6 @@ public class MainScreen extends AppCompatActivity implements TextToSpeech.OnInit
                 return true;
             }
         });
-
 
         Thread controllerThread = new Thread(output);
         //controllerThread.start(); //TODO re-enable when ready

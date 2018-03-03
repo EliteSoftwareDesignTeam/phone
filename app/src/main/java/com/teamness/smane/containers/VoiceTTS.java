@@ -13,9 +13,12 @@ public class VoiceTTS implements IDirectionOutput{
 
     public TextToSpeech myTTS;
 
-    private String LEFT = "Turn left";
-    private String RIGHT = "Turn right";
-    private String FORWARD = "Keep going forward";
+    private String FORWARD = "Continue forward";
+    private String SLIGHT_LEFT = "Make a slight left";
+    private String SLIGHT_RIGHT = "Make a slight right";
+    private String SHARP_LEFT = "Make a sharp left";
+    private String SHARP_RIGHT = "Make a sharp right";
+    private String U_TURN = "Make a U-turn";
 
     public VoiceTTS(Context context, TextToSpeech.OnInitListener listener){
         this.myTTS = new TextToSpeech(context, listener);
@@ -29,11 +32,28 @@ public class VoiceTTS implements IDirectionOutput{
 
     @Override
     public void giveDirection(double angle, double strength) {
+        // -180 -> 0 -> 180
         if(angle == 0)
             myTTS.speak(FORWARD, TextToSpeech.QUEUE_ADD, null);
-        else if(angle < 0)
-            myTTS.speak(RIGHT, TextToSpeech.QUEUE_ADD, null);
-        else
-            myTTS.speak(LEFT, TextToSpeech.QUEUE_ADD, null);
+        else if(angle > 0) {
+            if(angle <= 10)
+                myTTS.speak(FORWARD, TextToSpeech.QUEUE_ADD, null);
+            else if (angle <= 45)
+                myTTS.speak(SLIGHT_LEFT, TextToSpeech.QUEUE_ADD, null);
+            else if(angle <= 135)
+                myTTS.speak(SHARP_LEFT, TextToSpeech.QUEUE_ADD, null);
+            else
+                myTTS.speak(U_TURN, TextToSpeech.QUEUE_ADD, null);
+        }
+        else{
+            if(angle >= -10)
+                myTTS.speak(FORWARD, TextToSpeech.QUEUE_ADD, null);
+            else if(angle >= -45)
+                myTTS.speak(SLIGHT_RIGHT, TextToSpeech.QUEUE_ADD, null);
+            else if(angle >= -135)
+                myTTS.speak(SHARP_RIGHT, TextToSpeech.QUEUE_ADD, null);
+            else
+                myTTS.speak(U_TURN, TextToSpeech.QUEUE_ADD, null);
+        }
     }
 }

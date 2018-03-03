@@ -9,6 +9,7 @@ import com.teamness.smane.bluetooth.Bluetooth;
 import com.teamness.smane.bluetooth.CaneBluetooth;
 import com.teamness.smane.event.CaneEvents;
 import com.teamness.smane.event.Event;
+import com.teamness.smane.event.TestEvent;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,8 +28,7 @@ public class BluetoothScreen extends AppCompatActivity {
     }
 
     public void onClick(View view) {
-        System.out.println("onClick");
-        CaneEvents.BT.trigger(new TestEvent());
+        CaneEvents.BT_OUT.trigger(new TestEvent());
     }
 
 }

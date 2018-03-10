@@ -1,4 +1,4 @@
 [submodule "app/src/shared"]
 	path = app/src/shared
-	url = http://github.com/EliteSoftwareDesignTeam/shared
+	url = git@github.com:EliteSoftwareDesignTeam/shared.git
 	branch = dev

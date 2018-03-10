@@ -20,6 +20,7 @@ import com.teamness.smane.containers.Route;
 import com.teamness.smane.containers.RouteFinder;
 import com.teamness.smane.containers.TextInterpreter;
 import com.teamness.smane.controller.Controller;
+import com.teamness.smane.controller.TemporaryBuzzerThingy;
 import com.teamness.smane.interfaces.IDirectionOutput;
 import com.teamness.smane.interfaces.ITextOutput;
 import com.teamness.smane.prototype.CommandOutput;
@@ -48,14 +49,16 @@ public class Prototype2 extends AppCompatActivity {
         lp = new LocationProvider(mFusedLocationClient, this);
         rf = new RouteFinder();
 
-
+        //Give Controller lists of outputs
         List<IDirectionOutput> directionOutputs = new LinkedList<>();
         directionOutputs.add(new CommandOutput());
+        directionOutputs.add(new TemporaryBuzzerThingy());
         List<ITextOutput> textOutputs = new LinkedList<>();
         textOutputs.add(new CommandOutput());
 
         controller = new Controller(directionOutputs,textOutputs,lp);
 
+        //Handle main button
         Button theButton = (Button) findViewById(R.id.thingDoer);
         theButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -63,6 +66,17 @@ public class Prototype2 extends AppCompatActivity {
             }
 
         });
+
+        //Handle next step button
+        Button nextButton = (Button) findViewById(R.id.nextStep);
+        nextButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                controller.triggerNextNode();
+            }
+        });
+
     }
 
     /**

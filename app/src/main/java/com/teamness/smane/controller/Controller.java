@@ -118,7 +118,7 @@ public class Controller implements Runnable {
     /**
      * Triggers next node, giving directions associated with it.
      */
-    private void triggerNextNode() {
+    public void triggerNextNode() {
         RouteNode current = nextNode();
         step++;
         say(current.instruction);

@@ -48,6 +48,10 @@ public class Controller implements Runnable {
      * @param directions The route to guide the user through. See {@link com.teamness.smane.containers.Route} for more details.
      */
     public void startGuiding(Route directions) {
+        if (directions.nodes == null || directions.nodes.size() == 0) {
+            throw new IllegalArgumentException("Route must contain more than 0 nodes.");
+        }
+
         //Update state
         active = true;
         route = directions;
@@ -97,7 +101,7 @@ public class Controller implements Runnable {
         triggerNextNode();
     }
 
-    public String printRoute(){
+    public String printRoute() {
         StringBuilder res = new StringBuilder();
         for (RouteNode node : route.nodes) {
             res.append(node.location.getLatitude()).append(", ").append(node.location.getLongitude())

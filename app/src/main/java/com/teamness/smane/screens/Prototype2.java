@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.teamness.smane.R;
+import com.teamness.smane.bluetooth.CaneBluetooth;
 import com.teamness.smane.containers.Command;
 import com.teamness.smane.containers.LocationProvider;
 import com.teamness.smane.containers.Route;
@@ -23,10 +24,14 @@ import com.teamness.smane.containers.RouteFinder;
 import com.teamness.smane.containers.TextInterpreter;
 import com.teamness.smane.containers.VoiceTTS;
 import com.teamness.smane.controller.Controller;
+import com.teamness.smane.controller.TemporaryBuzzerThingy;
+import com.teamness.smane.event.ButtonEvent;
+import com.teamness.smane.event.CaneEvents;
 import com.teamness.smane.interfaces.IDirectionOutput;
 import com.teamness.smane.interfaces.ITextOutput;
 import com.teamness.smane.prototype.CommandOutput;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -45,6 +50,12 @@ public class Prototype2 extends AppCompatActivity implements TextToSpeech.OnInit
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        try {
+            new CaneBluetooth().init();
+            CaneEvents.BT_IN.on(ButtonEvent.class, "onCaneButtonPressed", this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prototype2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -79,6 +90,10 @@ public class Prototype2 extends AppCompatActivity implements TextToSpeech.OnInit
             }
 
         });
+    }
+
+    public void onCaneButtonPressed(ButtonEvent event) {
+        // TODO
     }
 
     /**

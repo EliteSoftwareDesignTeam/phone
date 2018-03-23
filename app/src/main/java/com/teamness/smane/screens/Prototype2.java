@@ -73,10 +73,9 @@ public class Prototype2 extends AppCompatActivity implements TextToSpeech.OnInit
         rf = new RouteFinder();
 
         //Give Controller lists of outputs
-        List<IDirectionOutput> directionOutputs = new LinkedList<>();
+        directionOutputs = new LinkedList<>();
         directionOutputs.add(new CommandOutput());
-        directionOutputs.add(new TemporaryBuzzerThingy());
-        List<ITextOutput> textOutputs = new LinkedList<>();
+        textOutputs = new LinkedList<>();
         textOutputs.add(new CommandOutput());
         //if (voice == null) throw new RuntimeException("Not again...");
         //textOutputs.add(voice);

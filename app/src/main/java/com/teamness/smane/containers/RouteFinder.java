@@ -119,7 +119,7 @@ public class RouteFinder {
                     previousBearing = toRadianBearing(previous.bearingTo(current));
                     previousDistance = previous.distanceTo(previous);
                 } else {
-                    instructions = "Turn: " + bearingChange;
+                    instructions = "Turn: " + clockface(bearingChange);
                 }
             }
 
@@ -133,6 +133,15 @@ public class RouteFinder {
         }
 
         return nodes;
+    }
+
+    private String clockface(double bearing) {
+        double res = (bearing / Math.PI);
+        if (res < 0) res = res + 2;
+        res *= 6;
+        res = Math.round(res);
+        if (res == 0) res = 12;
+        return res + " o'clock";
     }
 
     private Location newLocation(LatLng currentLatLng) {

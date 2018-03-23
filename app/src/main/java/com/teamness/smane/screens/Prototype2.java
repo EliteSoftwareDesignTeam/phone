@@ -25,11 +25,8 @@ import com.teamness.smane.containers.TextInterpreter;
 import com.teamness.smane.containers.VoiceTTS;
 import com.teamness.smane.controller.Controller;
 import com.teamness.smane.controller.TemporaryBuzzerThingy;
-<<<<<<< HEAD
 import com.teamness.smane.event.ButtonEvent;
 import com.teamness.smane.event.CaneEvents;
-=======
->>>>>>> dev
 import com.teamness.smane.interfaces.IDirectionOutput;
 import com.teamness.smane.interfaces.ITextOutput;
 import com.teamness.smane.prototype.CommandOutput;
@@ -75,18 +72,11 @@ public class Prototype2 extends AppCompatActivity implements TextToSpeech.OnInit
         lp = new LocationProvider(mFusedLocationClient, this);
         rf = new RouteFinder();
 
-<<<<<<< HEAD
-
-        directionOutputs = new LinkedList<>();
-        directionOutputs.add(new CommandOutput());
-        textOutputs = new LinkedList<>();
-=======
         //Give Controller lists of outputs
         List<IDirectionOutput> directionOutputs = new LinkedList<>();
         directionOutputs.add(new CommandOutput());
         directionOutputs.add(new TemporaryBuzzerThingy());
         List<ITextOutput> textOutputs = new LinkedList<>();
->>>>>>> dev
         textOutputs.add(new CommandOutput());
         //if (voice == null) throw new RuntimeException("Not again...");
         //textOutputs.add(voice);
@@ -100,7 +90,6 @@ public class Prototype2 extends AppCompatActivity implements TextToSpeech.OnInit
             public void onClick(View view) {
                 displaySpeechRecognizer();
             }
-
         });
 
         //Handle next step button

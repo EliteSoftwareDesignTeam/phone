@@ -20,6 +20,7 @@ public class CaneBluetooth {
     static final String PI_NAME = "£$£$£$£$Smanepiness";
     private static Bluetooth bt;
 
+<<<<<<< HEAD
     static {
         try {
             new CaneBluetooth().init();
@@ -28,6 +29,8 @@ public class CaneBluetooth {
         }
     }
 
+=======
+>>>>>>> dev
     public boolean init() throws IOException {
         bt = new Bluetooth();
         if(bt.connect(PI_NAME)) {

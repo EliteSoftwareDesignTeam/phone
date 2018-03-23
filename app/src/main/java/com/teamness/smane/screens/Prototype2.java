@@ -25,8 +25,11 @@ import com.teamness.smane.containers.TextInterpreter;
 import com.teamness.smane.containers.VoiceTTS;
 import com.teamness.smane.controller.Controller;
 import com.teamness.smane.controller.TemporaryBuzzerThingy;
+<<<<<<< HEAD
 import com.teamness.smane.event.ButtonEvent;
 import com.teamness.smane.event.CaneEvents;
+=======
+>>>>>>> dev
 import com.teamness.smane.interfaces.IDirectionOutput;
 import com.teamness.smane.interfaces.ITextOutput;
 import com.teamness.smane.prototype.CommandOutput;
@@ -72,10 +75,18 @@ public class Prototype2 extends AppCompatActivity implements TextToSpeech.OnInit
         lp = new LocationProvider(mFusedLocationClient, this);
         rf = new RouteFinder();
 
+<<<<<<< HEAD
 
         directionOutputs = new LinkedList<>();
         directionOutputs.add(new CommandOutput());
         textOutputs = new LinkedList<>();
+=======
+        //Give Controller lists of outputs
+        List<IDirectionOutput> directionOutputs = new LinkedList<>();
+        directionOutputs.add(new CommandOutput());
+        directionOutputs.add(new TemporaryBuzzerThingy());
+        List<ITextOutput> textOutputs = new LinkedList<>();
+>>>>>>> dev
         textOutputs.add(new CommandOutput());
         //if (voice == null) throw new RuntimeException("Not again...");
         //textOutputs.add(voice);
@@ -83,6 +94,7 @@ public class Prototype2 extends AppCompatActivity implements TextToSpeech.OnInit
 
         controller = new Controller(directionOutputs, textOutputs, lp);
 
+        //Handle main button
         Button theButton = (Button) findViewById(R.id.thingDoer);
         theButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -90,6 +102,17 @@ public class Prototype2 extends AppCompatActivity implements TextToSpeech.OnInit
             }
 
         });
+
+        //Handle next step button
+        Button nextButton = (Button) findViewById(R.id.nextStep);
+        nextButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                controller.triggerNextNode();
+            }
+        });
+
     }
 
     public void onCaneButtonPressed(ButtonEvent event) {

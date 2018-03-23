@@ -93,7 +93,7 @@ public class Prototype2 extends AppCompatActivity implements TextToSpeech.OnInit
     }
 
     public void onCaneButtonPressed(ButtonEvent event) {
-        // TODO
+        if(event.action == ButtonEvent.ButtonAction.PRESSED) displaySpeechRecognizer();
     }
 
     /**

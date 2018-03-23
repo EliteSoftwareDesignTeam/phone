@@ -24,7 +24,6 @@ import com.teamness.smane.containers.RouteFinder;
 import com.teamness.smane.containers.TextInterpreter;
 import com.teamness.smane.containers.VoiceTTS;
 import com.teamness.smane.controller.Controller;
-import com.teamness.smane.controller.TemporaryBuzzerThingy;
 import com.teamness.smane.event.ButtonEvent;
 import com.teamness.smane.event.CaneEvents;
 import com.teamness.smane.interfaces.IDirectionOutput;
@@ -105,7 +104,7 @@ public class Prototype2 extends AppCompatActivity implements TextToSpeech.OnInit
     }
 
     public void onCaneButtonPressed(ButtonEvent event) {
-        // TODO
+        if(event.action == ButtonEvent.ButtonAction.PRESSED) displaySpeechRecognizer();
     }
 
     /**

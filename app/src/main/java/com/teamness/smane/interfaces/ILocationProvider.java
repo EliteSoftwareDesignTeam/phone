@@ -1,6 +1,6 @@
 package com.teamness.smane.interfaces;
 
-import com.teamness.smane.containers.LocationData;
+import android.location.Location;
 
 /**
  * Provides a location of the device.
@@ -9,10 +9,10 @@ import com.teamness.smane.containers.LocationData;
 public interface ILocationProvider {
     /**
      * Provides access to GPS information. In general hasNewData() should be called first.
-     * @return Information about the current location of the device, as described in LocationData.
+     * @return Information about the current location of the device
      * Can return null if called before the first reading has taken.
      */
-    public LocationData getLocation();
+    public Location getLocation();
 
     /**
      * Checks whether new data has arrived since the last call of getLocation()

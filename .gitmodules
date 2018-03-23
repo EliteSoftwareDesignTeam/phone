@@ -1,6 +1,4 @@
-[submodule "app/src/main/java/com/teamness/smane/shared"]
-	path = app/src/main/java/com/teamness/smane/shared
-	url = https://github.com/EliteSoftwareDesignTeam/shared.git
-[submodule "repo"]
-	path = repo
-	url = https://github.com/EliteSoftwareDesignTeam/shared.git
+[submodule "app/src/shared"]
+	path = app/src/shared
+	url = git@github.com:EliteSoftwareDesignTeam/shared.git
+	branch = dev

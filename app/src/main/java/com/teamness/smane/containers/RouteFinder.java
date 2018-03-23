@@ -32,7 +32,7 @@ public class RouteFinder {
         System.out.println("key setup complete");
     }
 
-    public Route getRoute(double originLat, double originLong, String destination){
+    public Route getRoute(double originLat, double originLong, String destination) {
         DirectionsApiRequest apiRequest = DirectionsApi.newRequest(context);
         apiRequest.origin(new com.google.maps.model.LatLng(originLat, originLong));
         apiRequest.destination(destination);
@@ -82,8 +82,10 @@ public class RouteFinder {
             }
         }
 
-        Route route = new Route(nodes);
-        return route;
+        if (nodes.size() > 0) {
+            Route route = new Route(nodes);
+            return route;
+        } else return null;
     }
 
     private List<RouteNode> processStep(DirectionsStep previousStep, DirectionsStep currentStep, DirectionsStep nextStep) {
@@ -153,10 +155,10 @@ public class RouteFinder {
     private double getBearingChange(double previous, double next) {
         double change = next - previous;
 
-        if(change > Math.PI){
-            change -= 2* Math.PI;
-        }else if (change <= - Math.PI){
-            change += 2*Math.PI;
+        if (change > Math.PI) {
+            change -= 2 * Math.PI;
+        } else if (change <= -Math.PI) {
+            change += 2 * Math.PI;
         }
 
         return change;
